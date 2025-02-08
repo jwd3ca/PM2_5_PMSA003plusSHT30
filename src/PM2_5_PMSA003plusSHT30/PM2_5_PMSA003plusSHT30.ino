@@ -1,20 +1,20 @@
-// PM2_5_PMSA003plusSHT30.ino 07feb25
+// PM2_5_PMSA003plusSHT30.ino 07feb25 J. Davis
 // key was rx, tx pins: 13, 14
-// no need for 2nd usb cable
 // 30dec24: added code for DHT22, tested. working through 1000 iterations when read_temps() not called
 
-// if read_temps is called, BURP after 36 or so
 // 07feb25: stripped DHT22 code and added SHT30 code from SHT30_test.ino. WORKS! Thanks, Chad!
+// 08feb25: committed to my github repository jwd3ca/PM2_5_PMSA003plusSHT30
 
 
 #include <M5Core2.h>
 #include <HardwareSerial.h>
 #include <HTTPClient.h>
 #include <Ticker.h>
-#include "Free_Fonts.h"
+#include <Free_Fonts.h>
 #include <math.h>
 #include <Wire.h>
 #include <Adafruit_SHT31.h>
+#include "config.h"
 
 // Create an SHT31 object
 Adafruit_SHT31 sht30 = Adafruit_SHT31();
@@ -22,15 +22,7 @@ Adafruit_SHT31 sht30 = Adafruit_SHT31();
 #define BLINK_PERIOD_MS 60000  // milliseconds, 1 minute
 jsc::Ticker blinkTicker(BLINK_PERIOD_MS);
 
-// WiFi credentials
-const char* ssid = "";
-const char* password = "";
-
-// InfluxDB configuration
-const char* influxdb_url = "";
-const char* influxdb_org = "";
-const char* influxdb_bucket = "";
-const char* influxdb_token = "==";
+// Define WIFI_SSID, WIFI_PASSWORD, influxdb credentials, etc. from hidden config file
 
 #define PMS_RX_PIN 13  // RX from PMS5003
 #define PMS_TX_PIN 14  // TX from PMS5003
@@ -90,11 +82,11 @@ void setup() {
   M5.Lcd.setTextColor(TFT_MAGENTA, TFT_BLUE);
   M5.Lcd.fillRect(0, 0, 320, 30, TFT_BLUE);
   M5.Lcd.setTextDatum(TC_DATUM);
-  M5.Lcd.drawString("      P M 2.5 Air Quality V2.1", 65, 3, 4);
+  M5.Lcd.drawString("      P M 2.5 Air Quality V2.2", 65, 3, 4);
 
 #ifdef WIFI
   // Connect to WiFi
-  WiFi.begin(ssid, password);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.println("Connecting to WiFi...");
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
@@ -219,9 +211,9 @@ void loop() {
         // Send data to InfluxDB
         if (WiFi.status() == WL_CONNECTED) {
           HTTPClient http;
-          String url = String(influxdb_url) + "?org=" + influxdb_org + "&bucket=" + influxdb_bucket + "&precision=s";
+          String url = String(INFLUXDB_URL) + "?org=" + INFLUXDB_ORG + "&bucket=" + INFLUXDB_BUCKET + "&precision=s";
           http.begin(url);
-          http.addHeader("Authorization", String("Token ") + influxdb_token);
+          http.addHeader("Authorization", String("Token ") + INFLUXDB_TOKEN);
           http.addHeader("Content-Type", "text/plain");
 
           int httpResponseCode1 = http.POST(data_low);
