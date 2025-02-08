@@ -1,10 +1,17 @@
-// PM2_5_PMSA003plusSHT30.ino 07feb25
-// key was rx, tx pins: 13, 14
-// no need for 2nd usb cable
-// 30dec24: added code for DHT22, tested. working through 1000 iterations when read_temps() not called
+/*------------------------
+PM2_5_PMSA003plusSHT30.ino 07feb25
 
-// if read_temps is called, BURP after 36 or so
-// 07feb25: stripped DHT22 code and added SHT30 code from SHT30_test.ino. WORKS! Thanks, Chad!
+Post data to my local influxdb/grafana servers. Consider using a screenshot in github.
+Also consider linting the code before final commit.
+
+key was rx, tx pins: 13, 14
+30dec24: added code for DHT22, tested. working through 1000 iterations when read_temps() not called
+
+07feb25: revisit: stripped DHT22 code and added SHT30 code from working SHT30_test.ino. WORKS!
+08feb25: 1st foray into local git and the public githup to share my code.
+
+Don't forget to 'anonymize' the code, specifically the WIFI sections.
+------------------------*/
 
 
 #include <M5Core2.h>
