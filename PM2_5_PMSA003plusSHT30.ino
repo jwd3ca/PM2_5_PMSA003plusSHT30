@@ -54,6 +54,7 @@ uint8_t buffer[32];         // Buffer to store incoming data
 #define Y_OFFSET 20
 
 #define WIFI
+int DEBUG = 0;
 
 int circleX = 222;
 int circleY = 85;
@@ -74,7 +75,7 @@ float humidity = 0;
 //====================================================================
 void setup() {
   M5.begin();
-  Serial.print("Starting\n"); delay(3000);
+  DEBUG && Serial.print("Starting\n"); delay(3000);
 
   // Initialize PMS5003 serial communication
   pms5003.begin(9600, SERIAL_8N1, PMS_RX_PIN, PMS_TX_PIN);
@@ -127,7 +128,7 @@ void loop() {
 
     // Ensure we received enough data for a valid reading
     if (bytesRead >= 32 && buffer[0] == 0x42 && buffer[1] == 0x4d) {
-      // Serial.printf("%d: bytesRead OK!\n", iterations++);
+      DEBUG && Serial.printf("%d: bytesRead OK!\n", iterations++);
 
       M5.Lcd.setTextFont(1);
       M5.Lcd.setTextSize(1);
@@ -283,6 +284,7 @@ void draw_single_Coway_circle(float H, float T) {
   }
 
   // overwrite circle with temp and humidity
+  // not exactly working...
   /*
   int round_H = round(H);
   String humid = String(round_H) + " %";
@@ -310,6 +312,7 @@ void draw_single_Coway_circle(float H, float T) {
 */
 }
 
+//====================================================================
 static bool get_SHT30data() {
   // Read temperature in °C and relative humidity in %
   temperature = sht30.readTemperature();
