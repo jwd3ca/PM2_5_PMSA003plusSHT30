@@ -11,6 +11,9 @@ Good		Moderate	Unhealthy	Very Unhealthy
 
 Data is posted to my local influxdb server and viewed via my local grafana server. See screenshots
 
+This is my first github repository. Please don't hesitate to let me know what I've done wrong (or omitted)). Thanks.
+Hoping someone can use this :')
+
 
 
 
