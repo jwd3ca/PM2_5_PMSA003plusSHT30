@@ -23,6 +23,10 @@ Data is posted to my local influxdb server and viewed via my local grafana serve
 
 This is my first github repository. Please don't hesitate to let me know what I've done wrong (or omitted)). Thanks.
 
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+
 
 
 
